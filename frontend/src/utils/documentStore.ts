@@ -5,22 +5,24 @@ export interface StoredDocument {
     txId: string;
 }
 
-const KEY = 'opsign:documents:v1';
+function walletKey(walletAddress: string): string {
+    return `opsign:documents:v2:${walletAddress.toLowerCase()}`;
+}
 
-export function getStoredDocuments(): StoredDocument[] {
+export function getStoredDocuments(walletAddress: string): StoredDocument[] {
     try {
-        return JSON.parse(localStorage.getItem(KEY) ?? '[]') as StoredDocument[];
+        return JSON.parse(localStorage.getItem(walletKey(walletAddress)) ?? '[]') as StoredDocument[];
     } catch { return []; }
 }
 
-export function addStoredDocument(doc: StoredDocument): void {
-    const docs = getStoredDocuments();
+export function addStoredDocument(walletAddress: string, doc: StoredDocument): void {
+    const docs = getStoredDocuments(walletAddress);
     if (docs.some(d => d.hash === doc.hash)) return;
     docs.unshift(doc);
-    localStorage.setItem(KEY, JSON.stringify(docs));
+    localStorage.setItem(walletKey(walletAddress), JSON.stringify(docs));
 }
 
-export function removeStoredDocument(hash: string): void {
-    const docs = getStoredDocuments().filter(d => d.hash !== hash);
-    localStorage.setItem(KEY, JSON.stringify(docs));
+export function removeStoredDocument(walletAddress: string, hash: string): void {
+    const docs = getStoredDocuments(walletAddress).filter(d => d.hash !== hash);
+    localStorage.setItem(walletKey(walletAddress), JSON.stringify(docs));
 }

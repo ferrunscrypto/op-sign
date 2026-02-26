@@ -47,10 +47,13 @@ export function MyDocumentsTab({ network, walletAddress, connected, onConnect, c
     const resolvedSenderForRef = useRef<string | null>(null);
 
     const loadDocs = useCallback(() => {
-        setDocs(getStoredDocuments());
-    }, []);
+        setDocs(walletAddress ? getStoredDocuments(walletAddress) : []);
+    }, [walletAddress]);
 
-    useEffect(() => { loadDocs(); }, [loadDocs, walletAddress]);
+    useEffect(() => {
+        setOnChain({});
+        loadDocs();
+    }, [loadDocs, walletAddress]);
 
     // Fetch on-chain data for each doc
     useEffect(() => {
@@ -141,22 +144,24 @@ export function MyDocumentsTab({ network, walletAddress, connected, onConnect, c
     }, [walletAddress, network, provider]);
 
     const handleRemove = useCallback((hash: string) => {
-        removeStoredDocument(hash);
-        setDocs(getStoredDocuments());
-    }, []);
+        if (!walletAddress) return;
+        removeStoredDocument(walletAddress, hash);
+        setDocs(getStoredDocuments(walletAddress));
+    }, [walletAddress]);
 
     const handleAddManual = useCallback(() => {
+        if (!walletAddress) return;
         const raw = addInput.trim().toLowerCase();
         if (!raw) return;
         const hex = raw.startsWith('0x') ? raw : '0x' + raw;
         if (!/^0x[0-9a-f]{1,64}$/.test(hex)) { setAddError('Invalid hash — must be a hex string up to 64 characters.'); return; }
-        addStoredDocument({ hash: hex, filename: 'Manual entry', signedAt: Date.now(), txId: '' });
+        addStoredDocument(walletAddress, { hash: hex, filename: 'Manual entry', signedAt: Date.now(), txId: '' });
         setAddInput('');
         setAddError('');
-        setDocs(getStoredDocuments());
+        setDocs(getStoredDocuments(walletAddress));
         // Force on-chain reload for this hash
         setOnChain(prev => { const next = { ...prev }; delete next[hex]; return next; });
-    }, [addInput]);
+    }, [addInput, walletAddress]);
 
     if (!connected) {
         return (

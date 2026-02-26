@@ -9,7 +9,7 @@ import { getContractAddress } from './config/contracts';
 type Tab = 'sign' | 'verify' | 'mydocs' | 'stats';
 
 export function App() {
-    const { network, walletAddress, connectToWallet, connecting } = useWalletConnect();
+    const { network, walletAddress, connectToWallet, connecting, disconnect } = useWalletConnect();
     const [tab, setTab] = useState<Tab>('sign');
 
     const connected = Boolean(network && walletAddress);
@@ -45,6 +45,12 @@ export function App() {
                             <span className="wallet-chip__dot" />
                             <span className="wallet-chip__addr">{truncatedAddress}</span>
                             <span className="wallet-chip__net">{networkLabel}</span>
+                            <button className="wallet-chip__disconnect" onClick={disconnect} title="Disconnect wallet">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
                         </div>
                     ) : (
                         <button

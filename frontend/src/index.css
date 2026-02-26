@@ -119,6 +119,23 @@ body {
     border-radius: 4px;
 }
 
+.wallet-chip__disconnect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+.wallet-chip__disconnect:hover { background: rgba(239,68,68,0.15); color: #f87171; }
+
 /* ── Warning banner ───────────────────────────────────────────────────────── */
 .banner {
     display: flex;
