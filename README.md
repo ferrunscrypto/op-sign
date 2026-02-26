@@ -36,6 +36,32 @@ Anyone can then verify any document hash against the chain with no trusted backe
 
 ---
 
+## Frontend Tabs
+
+### Sign
+Drag-and-drop or browse any file. The SHA-256 hash is computed entirely in-browser via the Web Crypto API — the file never leaves your machine. Once hashed, submit the fingerprint on-chain with one click. After confirmation you can download a plain-text **notarisation certificate** containing the hash, signer address, transaction ID, and an explorer link.
+
+### Verify
+Re-upload any file (or paste a hash directly) to query its on-chain record. No wallet required — this is a read-only call. Results show:
+- **Verified (Active)** — signer address, block height, approximate date
+- **Revoked** — original signer address, revocation status
+- **Not Found** — no record exists for this hash
+
+### My Documents
+A locally tracked list of every document you have signed from the current wallet, with live on-chain status verified on each load:
+- **Active / Revoked / Not found** badges with block height and sign date
+- **Transaction link** to the OPNet explorer for each signing event
+- **Revoke** button — on-chain revocation available to the original signer
+- **Add by hash** — manually track a document signed from another device by pasting its hash
+
+Documents are stored in `localStorage` scoped per wallet address. Legacy documents from earlier sessions are automatically migrated.
+
+### Stats
+- Platform-wide total document count
+- Per-address lookup: enter any `opt1…` address to see how many documents that signer has notarised
+
+---
+
 ## Project Structure
 
 ```
@@ -49,9 +75,9 @@ op_sign/
 │   └── package.json
 └── frontend/               # React frontend
     ├── src/
-    │   ├── components/     # SignTab, VerifyTab, StatsBar
+    │   ├── components/     # SignTab, VerifyTab, MyDocumentsTab, StatsBar
     │   ├── hooks/          # useOpSign, useProvider
-    │   ├── utils/          # hashDocument, resolveAddress
+    │   ├── utils/          # hashDocument, resolveAddress, documentStore
     │   └── config/         # Contract addresses, network config
     └── package.json
 ```
