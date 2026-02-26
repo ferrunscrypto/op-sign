@@ -3,9 +3,10 @@ import { useWalletConnect, SupportedWallets } from '@btc-vision/walletconnect';
 import { SignTab } from './components/SignTab';
 import { VerifyTab } from './components/VerifyTab';
 import { StatsBar } from './components/StatsBar';
+import { MyDocumentsTab } from './components/MyDocumentsTab';
 import { getContractAddress } from './config/contracts';
 
-type Tab = 'sign' | 'verify' | 'stats';
+type Tab = 'sign' | 'verify' | 'mydocs' | 'stats';
 
 export function App() {
     const { network, walletAddress, connectToWallet, connecting } = useWalletConnect();
@@ -90,6 +91,19 @@ export function App() {
                     Verify
                 </button>
                 <button
+                    className={`tab${tab === 'mydocs' ? ' tab--active' : ''}`}
+                    onClick={() => setTab('mydocs')}
+                >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                    My Docs
+                </button>
+                <button
                     className={`tab${tab === 'stats' ? ' tab--active' : ''}`}
                     onClick={() => setTab('stats')}
                 >
@@ -114,6 +128,15 @@ export function App() {
                     />
                 )}
                 {tab === 'verify' && <VerifyTab network={network} />}
+                {tab === 'mydocs' && (
+                    <MyDocumentsTab
+                        network={network}
+                        walletAddress={walletAddress}
+                        connected={connected}
+                        onConnect={() => connectToWallet(SupportedWallets.OP_WALLET)}
+                        connecting={connecting}
+                    />
+                )}
                 {tab === 'stats' && <StatsBar network={network} walletAddress={walletAddress} />}
             </main>
 

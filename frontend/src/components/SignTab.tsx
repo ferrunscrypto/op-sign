@@ -3,6 +3,7 @@ import { Network } from '@btc-vision/bitcoin';
 import { getContract, TransactionParameters } from 'opnet';
 import { Address } from '@btc-vision/transaction';
 import { hashDocumentToU256, formatHashHex, truncateHash } from '../utils/hashDocument';
+import { addStoredDocument } from '../utils/documentStore';
 import { useProvider } from '../hooks/useProvider';
 import { resolveAddress } from '../utils/resolveAddress';
 import { OpSignAbi } from '../abi/OpSignABI';
@@ -149,7 +150,12 @@ export function SignTab({ network, walletAddress, connected, onConnect, connecti
     useEffect(() => {
         if (!pendingTxId || !provider) return;
         let cancelled = false;
-        const confirm = (id: string) => { setPendingTxId(''); setTxId(id); };
+        const confirm = (id: string) => {
+            if (hashHex && file) {
+                addStoredDocument({ hash: '0x' + hashHex, filename: file.name, signedAt: Date.now(), txId: id });
+            }
+            setPendingTxId(''); setTxId(id);
+        };
         const poll = async () => {
             try {
                 // getTransaction returns TransactionBase with .blockNumber when mined
