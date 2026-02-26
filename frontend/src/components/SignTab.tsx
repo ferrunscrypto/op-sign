@@ -152,7 +152,7 @@ export function SignTab({ network, walletAddress, connected, onConnect, connecti
         let cancelled = false;
         const confirm = (id: string) => {
             if (hashHex && file) {
-                addStoredDocument({ hash: '0x' + hashHex, filename: file.name, signedAt: Date.now(), txId: id });
+                addStoredDocument({ hash: hashHex, filename: file.name, signedAt: Date.now(), txId: id });
             }
             setPendingTxId(''); setTxId(id);
         };

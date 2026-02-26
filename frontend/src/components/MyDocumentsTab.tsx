@@ -59,7 +59,8 @@ export function MyDocumentsTab({ network, walletAddress, connected, onConnect, c
             if (onChain[doc.hash]?.loading === false) continue; // already loaded
             setOnChain(prev => ({ ...prev, [doc.hash]: { exists: false, blockHeight: 0n, revoked: false, loading: true, error: '' } }));
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (contract._verifyDocument(BigInt(doc.hash)) as Promise<any>)
+            const rawHash = doc.hash.replace(/^(0x)+/, '0x');
+            (contract._verifyDocument(BigInt(rawHash)) as Promise<any>)
                 .then((r: any) => {
                     const p = r?.properties;
                     setOnChain(prev => ({
@@ -121,7 +122,7 @@ export function MyDocumentsTab({ network, walletAddress, connected, onConnect, c
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const writeContract = getContract<any>(contractAddress, OpSignAbi as never, provider, network, resolvedSenderRef.current ?? undefined);
-            const simulation = await writeContract._revokeDocument(BigInt(hash));
+            const simulation = await writeContract._revokeDocument(BigInt(hash.replace(/^(0x)+/, '0x')));
             if (simulation.revert) { setRevokeError(prev => ({ ...prev, [hash]: String(simulation.revert) })); setRevoking(null); return; }
 
             const params: TransactionParameters = { signer: null, mldsaSigner: null, refundTo: walletAddress, maximumAllowedSatToSpend: 100_000n, feeRate: 10, network };
