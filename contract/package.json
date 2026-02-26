@@ -1,0 +1,26 @@
+{
+    "name": "op-sign-contract",
+    "version": "1.0.0",
+    "description": "OP-Sign — Decentralized Document Notary on Bitcoin L1 via OPNet",
+    "scripts": {
+        "build": "asc src/index.ts --config asconfig.json --target debug",
+        "clean": "rm -rf build/*",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "postinstall": "npx patch-package"
+    },
+    "dependencies": {
+        "@btc-vision/as-bignum": "latest",
+        "@btc-vision/btc-runtime": "latest",
+        "@btc-vision/opnet-transform": "latest",
+        "dotenv": "^17.3.1"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.9.1",
+        "@vitest/coverage-v8": "^4.0.18",
+        "assemblyscript": "^0.27.32",
+        "jsdom": "^28.1.0",
+        "patch-package": "^8.0.0",
+        "vitest": "^4.0.18"
+    }
+}

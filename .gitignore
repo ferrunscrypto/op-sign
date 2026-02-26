@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+contract/build/
+frontend/dist/
+frontend/.vite/
+
+# Environment / secrets
+contract/.env
+**/.env
+**/.env.*
+
+# Patches (contain runtime source)
+contract/patches/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Wrangler
+.wrangler/

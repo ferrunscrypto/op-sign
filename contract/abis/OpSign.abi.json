@@ -1,0 +1,92 @@
+{
+    "functions": [
+        {
+            "name": "_signDocument",
+            "type": "Function",
+            "payable": false,
+            "onlyOwner": false,
+            "inputs": [
+                {
+                    "name": "hash",
+                    "type": "UINT256"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "_revokeDocument",
+            "type": "Function",
+            "payable": false,
+            "onlyOwner": false,
+            "inputs": [
+                {
+                    "name": "hash",
+                    "type": "UINT256"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "_verifyDocument",
+            "type": "Function",
+            "payable": false,
+            "onlyOwner": false,
+            "inputs": [
+                {
+                    "name": "hash",
+                    "type": "UINT256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "exists",
+                    "type": "BOOL"
+                },
+                {
+                    "name": "signer",
+                    "type": "UINT256"
+                },
+                {
+                    "name": "blockHeight",
+                    "type": "UINT256"
+                },
+                {
+                    "name": "revoked",
+                    "type": "BOOL"
+                }
+            ]
+        },
+        {
+            "name": "_getDocCount",
+            "type": "Function",
+            "payable": false,
+            "onlyOwner": false,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "UINT256"
+                }
+            ]
+        },
+        {
+            "name": "_getSignerDocCount",
+            "type": "Function",
+            "payable": false,
+            "onlyOwner": false,
+            "inputs": [
+                {
+                    "name": "signer",
+                    "type": "ADDRESS"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "UINT256"
+                }
+            ]
+        }
+    ],
+    "events": []
+}
